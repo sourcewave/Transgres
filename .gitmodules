@@ -1,0 +1,9 @@
+[submodule "pljava"]
+	path = pljava
+	url = git@github.com:sourcewave/pljava.git
+[submodule "postgres-project"]
+	path = postgres-project
+	url = git@github.com:sourcewave/postgres.git
+[submodule "pg_jinx"]
+	path = pg_jinx
+	url = git@github.com:sourcewave/pg_jinx.git
