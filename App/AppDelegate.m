@@ -72,13 +72,17 @@
     
     if (!existingPGVersion) {
         [self executeCommandNamed:@"initdb" arguments:[NSArray arrayWithObjects:[NSString stringWithFormat:@"-D%@", _varPath], [NSString stringWithFormat:@"-E%@", @"UTF8"], [NSString stringWithFormat:@"--locale=%@_%@", [[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode], [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode]], nil] terminationHandler:^(NSUInteger status) {
+            if (status) {
+                NSLog(@"initdb failed");
+            }
             [self executeCommandNamed:@"pg_ctl" arguments:[NSArray arrayWithObjects:@"start", [NSString stringWithFormat:@"-D%@", _varPath], @"-w", @"-o", opts, nil] terminationHandler:^(NSUInteger status) {
-                
-                
-                
-                
-                //                [self executeCommandNamed:@"createdb" arguments:[NSArray arrayWithObjects:[NSString stringWithFormat:@"-p%ld", port], NSUserName(), nil] terminationHandler:^(NSUInteger status) {
-                [self executeCommandNamed:@"createdb" arguments:[NSArray arrayWithObjects: NSUserName(), nil] terminationHandler:^(NSUInteger status) {
+                if (status) {
+                    NSLog(@"pg_ctl start failed");
+                }
+                    [self executeCommandNamed:@"createdb" arguments:[NSArray arrayWithObjects: NSUserName(), nil] terminationHandler:^(NSUInteger status) {
+                        if (status) {
+                            NSLog(@"createdb failed");
+                        }
                     if (completionBlock) {
                         completionBlock(status);
                     }
@@ -116,7 +120,7 @@
     NSError *err = nil;
     [fm createDirectoryAtURL: asd withIntermediateDirectories: YES attributes: nil error: &err];
 
-    NSURL *tsd = [xsd URLByAppendingPathComponent: @"tmp"];
+    NSURL *tsd = [ [xsd URLByAppendingPathComponent: @"../../tmp"] URLByStandardizingPath];
     [fm createDirectoryAtURL: tsd withIntermediateDirectories: YES attributes: nil error: &err];
 
     
@@ -156,13 +160,6 @@
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {    
     [self stopThen: ^() { [ sender replyToApplicationShouldTerminate: YES]; } ];
-
-    // Set a timeout interval for postgres shutdown
-/*    static NSTimeInterval const kTerminationTimeoutInterval = 3.0;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, kTerminationTimeoutInterval * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
-        [sender replyToApplicationShouldTerminate:YES];
-    });
-   */
     return NSTerminateLater;
 }
 
