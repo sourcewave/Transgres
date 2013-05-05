@@ -110,7 +110,7 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
     _statusBarItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength];
     _statusBarItem.menu = self.statusBarMenu;
-    _statusBarItem.image = [NSImage imageNamed:@"phant"];
+    _statusBarItem.image = [NSImage imageNamed:@"phant2"];
     
     self.postgresStatusMenuItem = [self.statusBarMenu itemWithTag: 234];
     
@@ -119,6 +119,10 @@
     NSURL *asd = [xsd URLByAppendingPathComponent: @"var"];
     NSError *err = nil;
     [fm createDirectoryAtURL: asd withIntermediateDirectories: YES attributes: nil error: &err];
+
+    NSURL *zzsd = [xsd URLByAppendingPathComponent: @"ext"];
+    err = nil;
+    [fm createDirectoryAtURL: zzsd withIntermediateDirectories: YES attributes: nil error: &err];
 
     NSURL *tsd = [ [xsd URLByAppendingPathComponent: @"../../tmp"] URLByStandardizingPath];
     [fm createDirectoryAtURL: tsd withIntermediateDirectories: YES attributes: nil error: &err];

@@ -37,8 +37,12 @@
 		E704835A16FF829D006A01D3 /* include in Copy postgres Executables */ = {isa = PBXBuildFile; fileRef = E704835616FF829D006A01D3 /* include */; };
 		E704835B16FF829D006A01D3 /* lib in Copy postgres Executables */ = {isa = PBXBuildFile; fileRef = E704835716FF829D006A01D3 /* lib */; };
 		E704835C16FF829D006A01D3 /* share in Copy postgres Executables */ = {isa = PBXBuildFile; fileRef = E704835816FF829D006A01D3 /* share */; };
-		E704835F16FF9E0E006A01D3 /* phant.png in Resources */ = {isa = PBXBuildFile; fileRef = E704835D16FF9E0E006A01D3 /* phant.png */; };
 		E716F81616F4DE4A00CAF881 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F8973A151538846600EAB41E /* InfoPlist.strings */; };
+		E79C656717304EE200E10EB1 /* phant2.png in Resources */ = {isa = PBXBuildFile; fileRef = E79C656517304EE200E10EB1 /* phant2.png */; };
+		E79C656817304EE200E10EB1 /* phant4.png in Resources */ = {isa = PBXBuildFile; fileRef = E79C656617304EE200E10EB1 /* phant4.png */; };
+		E79C657017306F6900E10EB1 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = E79C656F17306F6900E10EB1 /* main.c */; };
+		E79C657217306F6900E10EB1 /* test_jni.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = E79C657117306F6900E10EB1 /* test_jni.1 */; };
+		E79C6577173079E200E10EB1 /* libjvm.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E79C6576173079E200E10EB1 /* libjvm.dylib */; };
 		E7B0F0A316F3819B0050495D /* jdk1.7.jdk in CopyFiles */ = {isa = PBXBuildFile; fileRef = E7B0F0A216F3819B0050495D /* jdk1.7.jdk */; };
 		E7B0F0A516F3CC4F0050495D /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F8973A211538846600EAB41E /* MainMenu.xib */; };
 		E7B0F0A616F3CC570050495D /* WelcomeWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = F883D60D15B5CEB60017F83A /* WelcomeWindow.xib */; };
@@ -65,6 +69,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		E79C656B17306F6900E10EB1 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				E79C657217306F6900E10EB1 /* test_jni.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		E7B0F0A116F381660050495D /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -108,8 +122,13 @@
 		E704835616FF829D006A01D3 /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; name = include; path = postgres/include; sourceTree = "<group>"; };
 		E704835716FF829D006A01D3 /* lib */ = {isa = PBXFileReference; lastKnownFileType = folder; name = lib; path = postgres/lib; sourceTree = "<group>"; };
 		E704835816FF829D006A01D3 /* share */ = {isa = PBXFileReference; lastKnownFileType = folder; name = share; path = postgres/share; sourceTree = "<group>"; };
-		E704835D16FF9E0E006A01D3 /* phant.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = phant.png; sourceTree = "<group>"; };
 		E73524F716DDC1AD00E693C6 /* Tool.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Tool.entitlements; sourceTree = "<group>"; };
+		E79C656517304EE200E10EB1 /* phant2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = phant2.png; path = App/phant2.png; sourceTree = "<group>"; };
+		E79C656617304EE200E10EB1 /* phant4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = phant4.png; path = App/phant4.png; sourceTree = "<group>"; };
+		E79C656D17306F6900E10EB1 /* test_jni */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test_jni; sourceTree = BUILT_PRODUCTS_DIR; };
+		E79C656F17306F6900E10EB1 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		E79C657117306F6900E10EB1 /* test_jni.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = test_jni.1; sourceTree = "<group>"; };
+		E79C6576173079E200E10EB1 /* libjvm.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libjvm.dylib; path = Vendor/jdk1.7.jdk/Contents/Home/jre/lib/server/libjvm.dylib; sourceTree = "<group>"; };
 		E7B0F0A216F3819B0050495D /* jdk1.7.jdk */ = {isa = PBXFileReference; lastKnownFileType = folder; path = jdk1.7.jdk; sourceTree = "<group>"; };
 		F883D60D15B5CEB60017F83A /* WelcomeWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WelcomeWindow.xib; sourceTree = "<group>"; };
 		F884C8ED153C76E900CDCB09 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
@@ -136,6 +155,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		E79C656A17306F6900E10EB1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E79C6577173079E200E10EB1 /* libjvm.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F8973A051538846600EAB41E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -157,6 +184,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E79C656E17306F6900E10EB1 /* test_jni */ = {
+			isa = PBXGroup;
+			children = (
+				E79C656F17306F6900E10EB1 /* main.c */,
+				E79C657117306F6900E10EB1 /* test_jni.1 */,
+			);
+			path = test_jni;
+			sourceTree = "<group>";
+		};
 		F80534F21538883D000E1BAC /* postgres */ = {
 			isa = PBXGroup;
 			children = (
@@ -171,9 +207,13 @@
 		F89739FD1538846600EAB41E = {
 			isa = PBXGroup;
 			children = (
+				E79C6576173079E200E10EB1 /* libjvm.dylib */,
+				E79C656517304EE200E10EB1 /* phant2.png */,
+				E79C656617304EE200E10EB1 /* phant4.png */,
 				F8973A121538846600EAB41E /* Transgres */,
 				F8973A3F1538851D00EAB41E /* postgres-service */,
 				F8973A32153884AC00EAB41E /* Vendor */,
+				E79C656E17306F6900E10EB1 /* test_jni */,
 				F8973A0B1538846600EAB41E /* Frameworks */,
 				F8973A091538846600EAB41E /* Products */,
 			);
@@ -184,6 +224,7 @@
 			children = (
 				F8973A081538846600EAB41E /* Transgres.app */,
 				F8973A3C1538851D00EAB41E /* net.r0ml.postgres-service.xpc */,
+				E79C656D17306F6900E10EB1 /* test_jni */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -214,7 +255,6 @@
 			isa = PBXGroup;
 			children = (
 				F884C919153CA24400CDCB09 /* Transgres.icns */,
-				E704835D16FF9E0E006A01D3 /* phant.png */,
 				F8973A531538869700EAB41E /* Transgres.entitlements */,
 				E73524F716DDC1AD00E693C6 /* Tool.entitlements */,
 				F8973A1E1538846600EAB41E /* AppDelegate.h */,
@@ -269,6 +309,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		E79C656C17306F6900E10EB1 /* test_jni */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E79C657317306F6900E10EB1 /* Build configuration list for PBXNativeTarget "test_jni" */;
+			buildPhases = (
+				E79C656917306F6900E10EB1 /* Sources */,
+				E79C656A17306F6900E10EB1 /* Frameworks */,
+				E724EBD3173091110099A261 /* ShellScript */,
+				E79C656B17306F6900E10EB1 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = test_jni;
+			productName = test_jni;
+			productReference = E79C656D17306F6900E10EB1 /* test_jni */;
+			productType = "com.apple.product-type.tool";
+		};
 		F8973A071538846600EAB41E /* Transgres */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F8973A261538846600EAB41E /* Build configuration list for PBXNativeTarget "Transgres" */;
@@ -331,6 +389,7 @@
 				F805350315388AE4000E1BAC /* postgres-server */,
 				F8973A3B1538851D00EAB41E /* postgres-service */,
 				E7B0E0AC16F37C3D0050495D /* clean-postgres-server */,
+				E79C656C17306F6900E10EB1 /* test_jni */,
 			);
 		};
 /* End PBXProject section */
@@ -345,7 +404,8 @@
 				E7B0F0A916F3CC9A0050495D /* Transgres.icns in Resources */,
 				E716F81616F4DE4A00CAF881 /* InfoPlist.strings in Resources */,
 				E7000C4816F4D2DD00810BCF /* container-migration.plist in Resources */,
-				E704835F16FF9E0E006A01D3 /* phant.png in Resources */,
+				E79C656717304EE200E10EB1 /* phant2.png in Resources */,
+				E79C656817304EE200E10EB1 /* phant4.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -360,6 +420,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		E724EBD3173091110099A261 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "install_name_tool -add_rpath \"${PROJECT_DIR}/Vendor/jdk1.7.jdk/Contents/Home/jre/lib/server\" ${BUILT_PRODUCTS_DIR}/test_jni\n";
+		};
 		E7B0E0AD16F37C3D0050495D /* Clean postgres server */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -372,7 +445,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\ncd ${PROJECT_DIR}/postgres-project\n\nsh ./configure --prefix=\"${PROJECT_DIR}/Vendor/postgres\" --enable-thread-safety --with-openssl --with-gssapi --with-bonjour --with-krb5 --with-libxml --with-libxslt --with-perl --with-python --enable-debug LDFLAGS_SL=-headerpad_max_install_names\n/usr/bin/make -C src clean uninstall\n/usr/bin/make -C contrib clean uninstall\n\ncd ${PROJECT_DIR}/pljava\nmake clean\n\ncd ${PROJECT_DIR}/pg_jinx\nmake clean\n\ncd ${PROJECT_DIR}/Vendor\nrm -rf jdk1.7.jdk\n\nexport JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_13.jdk/Contents/Home/\nditto ${JAVA_HOME}/../.. ${PROJECT_DIR}/Vendor/jdk1.7.jdk\n\n# remove the visualvm stuff (takes a long time to codesign\nrm -rf ${PROJECT_DIR}/Vendor/jdk1.7.jdk/Contents/Home/lib/visualvm\n# remove the derby stuff (takes a long time to codesign\nrm -rf ${PROJECT_DIR}/Vendor/jdk1.7.jdk/Contents/Home/db\n";
+			shellScript = "#!/bin/sh\n\ncd ${PROJECT_DIR}/postgres-project\n\nsh ./configure --prefix=\"${PROJECT_DIR}/Vendor/postgres\" --enable-thread-safety --with-openssl --with-gssapi --with-bonjour --with-krb5 --with-libxml --with-libxslt --with-perl --with-python --enable-debug LDFLAGS_SL=-headerpad_max_install_names\n/usr/bin/make -C src clean uninstall\n/usr/bin/make -C contrib clean uninstall\n\ncd ${PROJECT_DIR}/pljava\nmake clean\n\ncd ${PROJECT_DIR}/pg_jinx\nmake clean\n\ncd ${PROJECT_DIR}/Vendor\nrm -rf jdk1.7.jdk\n\nexport JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_21.jdk/Contents/Home/\nditto ${JAVA_HOME}/../.. ${PROJECT_DIR}/Vendor/jdk1.7.jdk\n\n# remove the visualvm stuff (takes a long time to codesign\nrm -rf ${PROJECT_DIR}/Vendor/jdk1.7.jdk/Contents/Home/lib/visualvm\n# remove the derby stuff (takes a long time to codesign\nrm -rf ${PROJECT_DIR}/Vendor/jdk1.7.jdk/Contents/Home/db\n";
 		};
 		F805351B15388B0A000E1BAC /* Build postgres server */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -391,6 +464,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		E79C656917306F6900E10EB1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E79C657017306F6900E10EB1 /* main.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F8973A041538846600EAB41E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -446,6 +527,34 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		E79C657417306F6900E10EB1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				HEADER_SEARCH_PATHS = "${PROJECT_DIR}/Vendor/jdk1.7.jdk/Contents/Home/include/**";
+				LIBRARY_SEARCH_PATHS = "${PROJECT_DIR}/Vendor/jdk1.7.jdk/Contents/Home/jre/lib/server";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		E79C657517306F6900E10EB1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				HEADER_SEARCH_PATHS = "${PROJECT_DIR}/Vendor/jdk1.7.jdk/Contents/Home/include/**";
+				LIBRARY_SEARCH_PATHS = "${PROJECT_DIR}/Vendor/jdk1.7.jdk/Contents/Home/jre/lib/server";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		E7B0E0AF16F37C3D0050495D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -634,6 +743,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		E79C657317306F6900E10EB1 /* Build configuration list for PBXNativeTarget "test_jni" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E79C657417306F6900E10EB1 /* Debug */,
+				E79C657517306F6900E10EB1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		E7B0E0AE16F37C3D0050495D /* Build configuration list for PBXAggregateTarget "clean-postgres-server" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
