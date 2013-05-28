@@ -1,7 +1,8 @@
 
 #import <ServiceManagement/ServiceManagement.h>
 #import "AppDelegate.h"
-
+#import "../Vendor/postgres/include/pg_config.h"
+ 
 @implementation AppDelegate {
     NSStatusItem *_statusBarItem;
     NSWindowController *_welcomeWindow;
@@ -53,7 +54,7 @@
     }
     
     NSString *existingPGVersion = [NSString stringWithContentsOfFile:[_varPath stringByAppendingPathComponent:@"PG_VERSION"] encoding:NSUTF8StringEncoding error:nil];
-    NSString *thisPGVersion = @"9.2";
+    NSString *thisPGVersion = @PG_MAJORVERSION;
     
     NSLog(@"Existing PGVersion: %@", existingPGVersion);
     NSLog(@"This PGVersion: %@", thisPGVersion);
@@ -68,7 +69,7 @@
         }
     }
     
-    NSString *opts = [NSString stringWithFormat: /*@"-p  %ld*/ @"-c log_destination=syslog -c logging_collector=on -c log_connections=yes -c log_min_error_statement=LOG -c unix_socket_directory=\"%@\"", /*port, */ _sktPath];
+    NSString *opts = [NSString stringWithFormat: /*@"-p  %ld*/ @"-c log_destination=syslog -c logging_collector=on -c log_connections=yes -c log_min_error_statement=LOG -c unix_socket_directories=\"%@\"", /*port, */ _sktPath];
     
     if (!existingPGVersion) {
         [self executeCommandNamed:@"initdb" arguments:[NSArray arrayWithObjects:[NSString stringWithFormat:@"-D%@", _varPath], [NSString stringWithFormat:@"-E%@", @"UTF8"], [NSString stringWithFormat:@"--locale=%@_%@", [[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode], [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode]], nil] terminationHandler:^(NSUInteger status) {
@@ -195,4 +196,11 @@
     
 }
 
+-(NSString *)version {
+    NSBundle *mainBundle = [NSBundle mainBundle];
+    NSString *svs = [mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    return [NSString stringWithFormat: @"Version %@", svs];
+}
+
 @end
+

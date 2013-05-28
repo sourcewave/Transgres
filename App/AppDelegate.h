@@ -13,4 +13,6 @@
 - (IBAction)closeWelcome:(id)sender;
 - (IBAction)start:(id)sender;
 
+@property (readonly) NSString *version;
+
 @end
