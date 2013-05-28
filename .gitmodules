@@ -7,3 +7,6 @@
 [submodule "pg_jinx"]
 	path = pg_jinx
 	url = git@github.com:sourcewave/pg_jinx.git
+[submodule "mupdf"]
+	path = mupdf
+	url = git://git.ghostscript.com/mupdf.git
