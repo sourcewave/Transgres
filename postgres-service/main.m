@@ -54,6 +54,10 @@ static void do_command(NSString *command, xpc_connection_t peer, xpc_object_t ev
     
     NSTask *task = [[NSTask alloc] init];
     task.launchPath = command;
+
+    const char *cd = xpc_dictionary_get_string(event, "current_directory");
+    if (cd != NULL) task.currentDirectoryPath = [NSString stringWithUTF8String:cd];
+
     task.arguments = mutableArguments;
     task.terminationHandler = ^(NSTask *task) {
         xpc_object_t reply = xpc_dictionary_create_reply(event);

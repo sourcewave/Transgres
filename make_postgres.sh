@@ -25,11 +25,24 @@ function buildver {
   /usr/bin/make -C src install CFLAGS=-g
   #/usr/bin/make -C contrib install CFLAGS=-g
 
-  mv "${PROJECT_DIR}/Vendor/postgres$1/bin/postgres" "${PROJECT_DIR}/Vendor/postgres/bin/postgres$1"
+  binx=${PROJECT_DIR}/Vendor/postgres/bin/postgres.$1
+  rm -rf "${binx}"
+  mkdir -p "${binx}"
+  for execu in postgres pg_ctl pg_resetxlog ; do
+    ditto "${PROJECT_DIR}/Vendor/postgres$1/bin/$execu" "${binx}/$execu"
+  done
 
-  # since I only want the postgres executable, I don't need to fix the
-  # dynamic loading paths, since the postgres executable doesn't use them?
-  # of course, it might use dlopen -- so hang on...
+  LIBPQ=${binx}/libpq.5.dylib
+  ditto "${PROJECT_DIR}/Vendor/postgres$1/lib/libpq.5.dylib" "${LIBPQ}"
+  /usr/bin/install_name_tool -change "${PROJECT_DIR}/Vendor/postgres$1/lib/libpq.5.dylib" "@rpath/libpq.5.dylib" "${binx}/pg_ctl"
+  /usr/bin/install_name_tool -add_rpath "@loader_path" "${binx}/pg_ctl"
+  /usr/bin/install_name_tool -id "@rpath/libpq.5.dylib" "${binx}/libpq.5.dylib"
+
+  # I don't need the whole directory, I just need:
+  #   pg_ctl  -- which references libpq.dylib -- which presumably also needs to be moved
+  #           -- and the reference in pg_ctl updated to use an rpath
+  #   postgres
+  #   pg_resetxlog
 
 #  export LC_LPATH="@loader_path/../lib"
 

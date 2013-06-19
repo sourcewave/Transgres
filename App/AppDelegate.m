@@ -15,72 +15,69 @@
 
 @synthesize socketDirectory;
 
-- (void)executeCommandNamed:(NSString *)command
-                  arguments:(NSArray *)arguments
-         terminationHandler:(void (^)(NSUInteger status))terminationHandler
-{
+- (void)executeCommand:(NSString *)command arguments:(NSArray *)arguments whenDone:(void (^)(NSUInteger status))terminationHandler {
 	xpc_object_t message = xpc_dictionary_create(NULL, NULL, 0);
-    
     xpc_dictionary_set_string(message, "command", [[_binPath stringByAppendingPathComponent:command] UTF8String]);
-    
     xpc_object_t args = xpc_array_create(NULL, 0);
     [arguments enumerateObjectsUsingBlock:^(id argument, NSUInteger idx, BOOL *stop) {
         xpc_array_set_value(args, XPC_ARRAY_APPEND, xpc_string_create([argument UTF8String]));
     }];
     xpc_dictionary_set_value(message, "arguments", args);
-    
     xpc_connection_send_message_with_reply(_xpc_connection, message, dispatch_get_main_queue(), ^(xpc_object_t object) {
-        NSLog(@"%lld %s: Status %lld", xpc_dictionary_get_int64(object, "pid"), xpc_dictionary_get_string(object, "command"), xpc_dictionary_get_int64(object, "status"));
-        
-        if (terminationHandler) {
-            terminationHandler(xpc_dictionary_get_int64(object, "status"));
-        }
+        long long status = xpc_dictionary_get_int64(object, "status");
+        const char *cmnd = xpc_dictionary_get_string(object, "command");
+        long long pid = xpc_dictionary_get_int64(object, "pid");
+        NSLog(@"%lld %s: Status %lld", pid, cmnd, status);
+        if (terminationHandler) terminationHandler(status);
     });
 }
-
-
-- (BOOL)shouldMigrateFromVersion:(NSString *)fromVersion toVersion:(NSString *)toVersion {
-    NSAlert *alert = [NSAlert alertWithMessageText:[NSString stringWithFormat:NSLocalizedString(@"Upgrade to Postgres Version %@?", nil), toVersion] defaultButton:NSLocalizedString(@"OK", nil) alternateButton:NSLocalizedString(@"Quit", nil) otherButton:nil informativeTextWithFormat:NSLocalizedString(@"Your current database, configured for Postgres %@, will have its data moved to `var-%@`.\n\nA new data directory at `var`, configured for Postgres %@ will be initialized in its place.", nil), fromVersion, fromVersion, toVersion];
-    NSInteger result = [alert runModal];
-    
-    return result == NSAlertDefaultReturn;
-}
-
 - (void) startWithTerminationHandler:(void (^)(NSUInteger status))completionBlock {
-    //    [self stop ];
-    
-    if (![[NSFileManager defaultManager] fileExistsAtPath:_varPath]) {
-        
-    }
-    
     NSString *existingPGVersion = [NSString stringWithContentsOfFile:[_varPath stringByAppendingPathComponent:@"PG_VERSION"] encoding:NSUTF8StringEncoding error:nil];
     NSString *thisPGVersion = @PG_MAJORVERSION;
     
-    NSLog(@"Existing PGVersion: %@", existingPGVersion);
-    NSLog(@"This PGVersion: %@", thisPGVersion);
-    
-    if ( existingPGVersion) {
-        if ([thisPGVersion compare:existingPGVersion options:NSNumericSearch] == NSOrderedDescending) {
-            if (![self shouldMigrateFromVersion:existingPGVersion toVersion:thisPGVersion]) [NSApp terminate:self];
-            NSError *error = nil;
-            BOOL ok = [[NSFileManager defaultManager] moveItemAtPath:_varPath toPath:[_varPath stringByAppendingFormat:@"-%@", existingPGVersion] error:&error];
-            if (!ok) NSLog(@"Error: %@", error);
-            existingPGVersion = nil;
-        }
+    if ( existingPGVersion && [thisPGVersion compare:existingPGVersion options:NSNumericSearch] == NSOrderedDescending) {
+        NSAlert *alert = [NSAlert alertWithMessageText:[NSString stringWithFormat:NSLocalizedString(@"Upgrade to Postgres Version %@?", nil), thisPGVersion] defaultButton:NSLocalizedString(@"OK", nil) alternateButton:NSLocalizedString(@"Quit", nil) otherButton:nil informativeTextWithFormat:NSLocalizedString(@"Your current database, configured for Postgres %@, will have its data moved to `var-%@`.\n\nA new data directory at `var`, configured for Postgres %@ will be initialized in its place.", nil), existingPGVersion, existingPGVersion, thisPGVersion];
+        NSInteger result = [alert runModal];
+        if (result != NSAlertDefaultReturn) [NSApp terminate:self];
+        NSError *error = nil;
+        BOOL ok = [[NSFileManager defaultManager] moveItemAtPath:_varPath toPath:[_varPath stringByAppendingFormat:@"-%@", existingPGVersion] error:&error];
+        if (!ok) NSLog(@"Error: %@", error);
+        [self executeCommand: @"pg_update" arguments: [NSArray arrayWithObjects: nil] whenDone:^(NSUInteger status) {
+            if (status) NSLog(@"pg_update failed");
+            NSAlert *alert = [NSAlert alertWithMessageText: [NSString stringWithFormat:NSLocalizedString(@"Postgres Version upgrade failed with status = %lld", nil), status] defaultButton: NSLocalizedString(@"OK",nil) alternateButton: nil otherButton: nil informativeTextWithFormat: NSLocalizedString(@"I must now quit", nil)];
+            NSInteger result = [alert runModal];
+            [NSApp terminate: self];
+        }];
+        
+        existingPGVersion = nil;
     }
     
     NSString *opts = [NSString stringWithFormat: /*@"-p  %ld*/ @"-c log_destination=syslog -c logging_collector=on -c log_connections=yes -c log_min_error_statement=LOG -c unix_socket_directories=\"%@\"", /*port, */ _sktPath];
     
     if (!existingPGVersion) {
-        [self executeCommandNamed:@"initdb" arguments:[NSArray arrayWithObjects:[NSString stringWithFormat:@"-D%@", _varPath], [NSString stringWithFormat:@"-E%@", @"UTF8"], [NSString stringWithFormat:@"--locale=%@_%@", [[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode], [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode]], nil] terminationHandler:^(NSUInteger status) {
+        [self executeCommand:@"initdb" arguments:[NSArray arrayWithObjects:[NSString stringWithFormat:@"-D%@", _varPath], [NSString stringWithFormat:@"-E%@", @"UTF8"], [NSString stringWithFormat:@"--locale=%@_%@", [[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode], [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode]], nil] whenDone:^(NSUInteger status) {
             if (status) {
                 NSLog(@"initdb failed");
             }
-            [self executeCommandNamed:@"pg_ctl" arguments:[NSArray arrayWithObjects:@"start", [NSString stringWithFormat:@"-D%@", _varPath], @"-w", @"-o", opts, nil] terminationHandler:^(NSUInteger status) {
+            
+            // if upgrading....
+            
+            [self executeCommand:@"pg_upgrade" arguments:
+              [NSArray arrayWithObjects:@"-d", [NSString stringWithFormat:@"%@-%@",_varPath,existingPGVersion],
+               @"-D", [NSString stringWithFormat:@"%@", _varPath],
+               @"-b", [NSString stringWithFormat:@"%@/postgres.%@",_binPath,existingPGVersion],
+               @"-B", [NSString stringWithFormat:@"%@", _binPath],
+               nil]
+                        whenDone:^(NSUInteger status) {
+                if (status) {
+                    NSLog(@"pg_upgrade failed");
+                }
+            
+            [self executeCommand:@"pg_ctl" arguments:[NSArray arrayWithObjects:@"start", [NSString stringWithFormat:@"-D%@", _varPath], @"-w", @"-o", opts, nil] whenDone:^(NSUInteger status) {
                 if (status) {
                     NSLog(@"pg_ctl start failed");
                 }
-                    [self executeCommandNamed:@"createdb" arguments:[NSArray arrayWithObjects: NSUserName(), nil] terminationHandler:^(NSUInteger status) {
+                    [self executeCommand:@"createdb" arguments:[NSArray arrayWithObjects: NSUserName(), nil] whenDone:^(NSUInteger status) {
                         if (status) {
                             NSLog(@"createdb failed");
                         }
@@ -90,8 +87,9 @@
                 }];
             }];
         }];
+        }];
     } else {
-        [self executeCommandNamed:@"pg_ctl" arguments:[NSArray arrayWithObjects:@"start", [NSString stringWithFormat:@"-D%@", _varPath], @"-o", opts, nil] terminationHandler:^(NSUInteger status) {
+        [self executeCommand:@"pg_ctl" arguments:[NSArray arrayWithObjects:@"start", [NSString stringWithFormat:@"-D%@", _varPath], @"-o", opts, nil] whenDone:^(NSUInteger status) {
             // Kill server and try one more time if server can't be started
             if (status != 0) {
                 static dispatch_once_t onceToken;
@@ -129,7 +127,8 @@
     [fm createDirectoryAtURL: tsd withIntermediateDirectories: YES attributes: nil error: &err];
 
     
-    _binPath =[[NSBundle mainBundle] pathForAuxiliaryExecutable:@"bin"];
+    // This is a monstrous HACK to avoid code-signing
+    _binPath =[[NSBundle mainBundle] pathForAuxiliaryExecutable:@"Resources/bin"];
     _varPath = [asd path];
     _sktPath = [tsd path];
     
@@ -180,7 +179,8 @@
 }
 
 - (IBAction)selectPsql:(id)sender {
-    NSString *binPath = [[NSBundle mainBundle] pathForAuxiliaryExecutable:@"bin"];
+    // This is yet again another massive HACK
+    NSString *binPath = [[NSBundle mainBundle] pathForAuxiliaryExecutable:@"Resources/bin"];
     NSString *psqlPath = [binPath stringByAppendingPathComponent:@"psql"];
     [[NSWorkspace sharedWorkspace] openFile:psqlPath withApplication:@"Terminal"];
 }

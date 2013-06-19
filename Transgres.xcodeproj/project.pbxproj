@@ -34,15 +34,12 @@
 /* Begin PBXBuildFile section */
 		E7000C4816F4D2DD00810BCF /* container-migration.plist in Resources */ = {isa = PBXBuildFile; fileRef = E7000C4716F4D2DD00810BCF /* container-migration.plist */; };
 		E704835916FF829D006A01D3 /* bin in Copy postgres Executables */ = {isa = PBXBuildFile; fileRef = E704835516FF829D006A01D3 /* bin */; };
-		E704835A16FF829D006A01D3 /* include in Copy postgres Executables */ = {isa = PBXBuildFile; fileRef = E704835616FF829D006A01D3 /* include */; };
+		E704835A16FF829D006A01D3 /* include in Headers */ = {isa = PBXBuildFile; fileRef = E704835616FF829D006A01D3 /* include */; };
 		E704835B16FF829D006A01D3 /* lib in Copy postgres Executables */ = {isa = PBXBuildFile; fileRef = E704835716FF829D006A01D3 /* lib */; };
 		E704835C16FF829D006A01D3 /* share in Copy postgres Executables */ = {isa = PBXBuildFile; fileRef = E704835816FF829D006A01D3 /* share */; };
 		E716F81616F4DE4A00CAF881 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F8973A151538846600EAB41E /* InfoPlist.strings */; };
 		E79C656717304EE200E10EB1 /* phant2.png in Resources */ = {isa = PBXBuildFile; fileRef = E79C656517304EE200E10EB1 /* phant2.png */; };
 		E79C656817304EE200E10EB1 /* phant4.png in Resources */ = {isa = PBXBuildFile; fileRef = E79C656617304EE200E10EB1 /* phant4.png */; };
-		E79C657017306F6900E10EB1 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = E79C656F17306F6900E10EB1 /* main.c */; };
-		E79C657217306F6900E10EB1 /* test_jni.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = E79C657117306F6900E10EB1 /* test_jni.1 */; };
-		E79C6577173079E200E10EB1 /* libjvm.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E79C6576173079E200E10EB1 /* libjvm.dylib */; };
 		E7B0F0A316F3819B0050495D /* jdk1.7.jdk in CopyFiles */ = {isa = PBXBuildFile; fileRef = E7B0F0A216F3819B0050495D /* jdk1.7.jdk */; };
 		E7B0F0A516F3CC4F0050495D /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F8973A211538846600EAB41E /* MainMenu.xib */; };
 		E7B0F0A616F3CC570050495D /* WelcomeWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = F883D60D15B5CEB60017F83A /* WelcomeWindow.xib */; };
@@ -69,21 +66,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		E79C656B17306F6900E10EB1 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-				E79C657217306F6900E10EB1 /* test_jni.1 in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
 		E7B0F0A116F381660050495D /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
-			dstSubfolderSpec = 13;
+			dstSubfolderSpec = 7;
 			files = (
 				E7B0F0A316F3819B0050495D /* jdk1.7.jdk in CopyFiles */,
 			);
@@ -93,10 +80,9 @@
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
-			dstSubfolderSpec = 6;
+			dstSubfolderSpec = 7;
 			files = (
 				E704835916FF829D006A01D3 /* bin in Copy postgres Executables */,
-				E704835A16FF829D006A01D3 /* include in Copy postgres Executables */,
 				E704835B16FF829D006A01D3 /* lib in Copy postgres Executables */,
 				E704835C16FF829D006A01D3 /* share in Copy postgres Executables */,
 			);
@@ -122,12 +108,10 @@
 		E704835616FF829D006A01D3 /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; name = include; path = postgres/include; sourceTree = "<group>"; };
 		E704835716FF829D006A01D3 /* lib */ = {isa = PBXFileReference; lastKnownFileType = folder; name = lib; path = postgres/lib; sourceTree = "<group>"; };
 		E704835816FF829D006A01D3 /* share */ = {isa = PBXFileReference; lastKnownFileType = folder; name = share; path = postgres/share; sourceTree = "<group>"; };
-		E73524F716DDC1AD00E693C6 /* Tool.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Tool.entitlements; sourceTree = "<group>"; };
+		E735C60B177247AF001AAA10 /* Transgres.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Transgres.entitlements; sourceTree = SOURCE_ROOT; };
+		E735C60C17724B7A001AAA10 /* net.r0ml.postgres-service.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "net.r0ml.postgres-service.entitlements"; sourceTree = "<group>"; };
 		E79C656517304EE200E10EB1 /* phant2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = phant2.png; path = App/phant2.png; sourceTree = "<group>"; };
 		E79C656617304EE200E10EB1 /* phant4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = phant4.png; path = App/phant4.png; sourceTree = "<group>"; };
-		E79C656D17306F6900E10EB1 /* test_jni */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test_jni; sourceTree = BUILT_PRODUCTS_DIR; };
-		E79C656F17306F6900E10EB1 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
-		E79C657117306F6900E10EB1 /* test_jni.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = test_jni.1; sourceTree = "<group>"; };
 		E79C6576173079E200E10EB1 /* libjvm.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libjvm.dylib; path = Vendor/jdk1.7.jdk/Contents/Home/jre/lib/server/libjvm.dylib; sourceTree = "<group>"; };
 		E7B0F0A216F3819B0050495D /* jdk1.7.jdk */ = {isa = PBXFileReference; lastKnownFileType = folder; path = jdk1.7.jdk; sourceTree = "<group>"; };
 		F883D60D15B5CEB60017F83A /* WelcomeWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WelcomeWindow.xib; sourceTree = "<group>"; };
@@ -151,18 +135,9 @@
 		F8973A411538851D00EAB41E /* postgres-service-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "postgres-service-Info.plist"; sourceTree = "<group>"; };
 		F8973A431538851D00EAB41E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F8973A461538851D00EAB41E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		F8973A531538869700EAB41E /* Transgres.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Transgres.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		E79C656A17306F6900E10EB1 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E79C6577173079E200E10EB1 /* libjvm.dylib in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		F8973A051538846600EAB41E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -184,15 +159,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		E79C656E17306F6900E10EB1 /* test_jni */ = {
-			isa = PBXGroup;
-			children = (
-				E79C656F17306F6900E10EB1 /* main.c */,
-				E79C657117306F6900E10EB1 /* test_jni.1 */,
-			);
-			path = test_jni;
-			sourceTree = "<group>";
-		};
 		F80534F21538883D000E1BAC /* postgres */ = {
 			isa = PBXGroup;
 			children = (
@@ -213,7 +179,6 @@
 				F8973A121538846600EAB41E /* Transgres */,
 				F8973A3F1538851D00EAB41E /* postgres-service */,
 				F8973A32153884AC00EAB41E /* Vendor */,
-				E79C656E17306F6900E10EB1 /* test_jni */,
 				F8973A0B1538846600EAB41E /* Frameworks */,
 				F8973A091538846600EAB41E /* Products */,
 			);
@@ -224,7 +189,6 @@
 			children = (
 				F8973A081538846600EAB41E /* Transgres.app */,
 				F8973A3C1538851D00EAB41E /* net.r0ml.postgres-service.xpc */,
-				E79C656D17306F6900E10EB1 /* test_jni */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -254,9 +218,8 @@
 		F8973A121538846600EAB41E /* Transgres */ = {
 			isa = PBXGroup;
 			children = (
+				E735C60B177247AF001AAA10 /* Transgres.entitlements */,
 				F884C919153CA24400CDCB09 /* Transgres.icns */,
-				F8973A531538869700EAB41E /* Transgres.entitlements */,
-				E73524F716DDC1AD00E693C6 /* Tool.entitlements */,
 				F8973A1E1538846600EAB41E /* AppDelegate.h */,
 				F8973A1F1538846600EAB41E /* AppDelegate.m */,
 				F8973A211538846600EAB41E /* MainMenu.xib */,
@@ -291,6 +254,7 @@
 		F8973A3F1538851D00EAB41E /* postgres-service */ = {
 			isa = PBXGroup;
 			children = (
+				E735C60C17724B7A001AAA10 /* net.r0ml.postgres-service.entitlements */,
 				F8973A461538851D00EAB41E /* main.m */,
 				F8973A401538851D00EAB41E /* Supporting Files */,
 			);
@@ -308,25 +272,18 @@
 		};
 /* End PBXGroup section */
 
-/* Begin PBXNativeTarget section */
-		E79C656C17306F6900E10EB1 /* test_jni */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E79C657317306F6900E10EB1 /* Build configuration list for PBXNativeTarget "test_jni" */;
-			buildPhases = (
-				E79C656917306F6900E10EB1 /* Sources */,
-				E79C656A17306F6900E10EB1 /* Frameworks */,
-				E724EBD3173091110099A261 /* ShellScript */,
-				E79C656B17306F6900E10EB1 /* CopyFiles */,
+/* Begin PBXHeadersBuildPhase section */
+		E7684EC21770896300EC8BEE /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E704835A16FF829D006A01D3 /* include in Headers */,
 			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = test_jni;
-			productName = test_jni;
-			productReference = E79C656D17306F6900E10EB1 /* test_jni */;
-			productType = "com.apple.product-type.tool";
+			runOnlyForDeploymentPostprocessing = 0;
 		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
 		F8973A071538846600EAB41E /* Transgres */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F8973A261538846600EAB41E /* Build configuration list for PBXNativeTarget "Transgres" */;
@@ -337,6 +294,7 @@
 				E7B0F0A116F381660050495D /* CopyFiles */,
 				E7B0F0A416F3CC270050495D /* Resources */,
 				F8973A51153885A100EAB41E /* Copy XPC Service */,
+				E7684EC21770896300EC8BEE /* Headers */,
 			);
 			buildRules = (
 			);
@@ -371,7 +329,25 @@
 		F89739FF1538846600EAB41E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0440;
+				LastUpgradeCheck = 0500;
+				TargetAttributes = {
+					F8973A071538846600EAB41E = {
+						DevelopmentTeam = MHEBPE6SV2;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+						};
+					};
+					F8973A3B1538851D00EAB41E = {
+						DevelopmentTeam = MHEBPE6SV2;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+						};
+					};
+				};
 			};
 			buildConfigurationList = F8973A021538846600EAB41E /* Build configuration list for PBXProject "Transgres" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -386,10 +362,9 @@
 			projectRoot = "";
 			targets = (
 				F8973A071538846600EAB41E /* Transgres */,
-				F805350315388AE4000E1BAC /* postgres-server */,
 				F8973A3B1538851D00EAB41E /* postgres-service */,
+				F805350315388AE4000E1BAC /* postgres-server */,
 				E7B0E0AC16F37C3D0050495D /* clean-postgres-server */,
-				E79C656C17306F6900E10EB1 /* test_jni */,
 			);
 		};
 /* End PBXProject section */
@@ -420,19 +395,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		E724EBD3173091110099A261 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "install_name_tool -add_rpath \"${PROJECT_DIR}/Vendor/jdk1.7.jdk/Contents/Home/jre/lib/server\" ${BUILT_PRODUCTS_DIR}/test_jni\n";
-		};
 		E7B0E0AD16F37C3D0050495D /* Clean postgres server */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -459,19 +421,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\n# JAVA_HOME must be set\nexport JAVA_HOME=${PROJECT_DIR}/Vendor/jdk1.7.jdk/Contents/Home\nexport JAVA_LCPATH=@loader_path/../../PlugIns/jdk1.7.jdk/Contents/Home/jre/lib/server\n\ncd ${PROJECT_DIR}/postgres-project\n/usr/bin/make -C src uninstall\n/usr/bin/make -C contrib uninstall\n\n/usr/bin/make -C src install CFLAGS=-g\n/usr/bin/make -C contrib install CFLAGS=-g\n\n# this is a temporary hack \ncp \"${PROJECT_DIR}/pg_jinx/init_jni.c\"  \"${PROJECT_DIR}/pljava/src/C/pljava/init_jni.c\"\n\necho Making pljava\ncd \"${PROJECT_DIR}/pljava\"\nmake clean\nmake -j1 \"JAVA_HOME=${JAVA_HOME}\" \"PG_CONFIG=${PROJECT_DIR}/Vendor/postgres/bin/pg_config\" CC=gcc CFLAGS=\"-g\"\n\necho Patching pljava\ncd \"${PROJECT_DIR}/pljava\"\ninstall_name_tool -add_rpath \"${JAVA_LCPATH}\" build/objs/pljava.so\ncp build/objs/pljava.so \"${PROJECT_DIR}/Vendor/postgres/lib/pljava.so\"\ncp build/pljava.jar \"${PROJECT_DIR}/Vendor/postgres/lib/pljava.jar\"\nditto build/classes \"${PROJECT_DIR}/Vendor/postgres/lib/classes\"\ncp src/sql/pljava.control src/sql/pljava--*.sql \"${PROJECT_DIR}/Vendor/postgres/share/extension/\"\n\necho Making pg_jinx\ncd \"${PROJECT_DIR}/pg_jinx\"\nmake clean\nmake\nmake JAVAFILES\n\necho Patching pg_jinx\ninstall_name_tool -add_rpath \"${JAVA_LCPATH}\" pg_jinx.so\ncp pg_jinx.control pg_jinx--*.sql \"${PROJECT_DIR}/Vendor/postgres/share/extension/\"\ncp pg_jinx.so \"${PROJECT_DIR}/Vendor/postgres/lib\"\ncp pg_combined.jar \"${PROJECT_DIR}/Vendor/postgres/lib/pg_jinx.jar\" # pg_combined -> pg_jinx\n\n# fix dynamic linking\nexport LC_LPATH=\"@loader_path/../lib\"\n\ndirectories=( \"bin\" \"lib\" )\nfor directory in ${directories[@]}\ndo\n\ncd \"${PROJECT_DIR}/Vendor/postgres/${directory}\"\n\nfor file in *\ndo\n\n( /usr/bin/install_name_tool -add_rpath \"${LC_LPATH}\" $file || true)\n\nfor lib in libpq.5.dylib libecpg.6.dylib libpgtypes.3.dylib\ndo\n( /usr/bin/install_name_tool -change \"${PROJECT_DIR}/Vendor/postgres/lib/${lib}\" \"@rpath/${lib}\" $file || true)\n\ndone\ndone\n\nfor file in *.dylib\ndo\nbasename=`basename $file`\nif [[ -f $file ]]\nthen\n/usr/bin/install_name_tool -id \"@rpath/${basename}\" $file\n# codesign --verbose -f -s \"${CODE_SIGN_IDENTITY}\" --entitlements \"${PROJECT_DIR}/App/Tool.entitlements\" \"$file\"\nfi\ndone\n\ndone\n\n\n# find Vendor -type f \\( -name \"*.jar\" -or -name \"*.dylib\" -or -name \"*.so\" \\) -exec codesign --verbose -f -s \"${CODE_SIGN_IDENTITY}\" --entitlements App/Tool.entitlements {} \\;\n";
+			shellScript = "#!/bin/sh\n\n# JAVA_HOME must be set\nexport JAVA_HOME=${PROJECT_DIR}/Vendor/jdk1.7.jdk/Contents/Home\nexport JAVA_LCPATH=@loader_path/../../PlugIns/jdk1.7.jdk/Contents/Home/jre/lib/server\n\n# -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __info_plist -Xlinker info.plist\n\ncd ${PROJECT_DIR}/postgres-project\n/usr/bin/make -C src uninstall\n/usr/bin/make -C contrib uninstall\n\n/usr/bin/make -C src install CFLAGS=-g\n/usr/bin/make -C contrib install CFLAGS=-g\n\n# this is a temporary hack \ncp \"${PROJECT_DIR}/pg_jinx/init_jni.c\"  \"${PROJECT_DIR}/pljava/src/C/pljava/init_jni.c\"\n\necho Making pljava\ncd \"${PROJECT_DIR}/pljava\"\nmake clean\nmake -j1 \"JAVA_HOME=${JAVA_HOME}\" \"PG_CONFIG=${PROJECT_DIR}/Vendor/postgres/bin/pg_config\" CC=gcc CFLAGS=\"-g\"\n\necho Patching pljava\ncd \"${PROJECT_DIR}/pljava\"\ninstall_name_tool -add_rpath \"${JAVA_LCPATH}\" build/objs/pljava.so\ncp build/objs/pljava.so \"${PROJECT_DIR}/Vendor/postgres/lib/pljava.so\"\ncp build/pljava.jar \"${PROJECT_DIR}/Vendor/postgres/lib/pljava.jar\"\nditto build/classes \"${PROJECT_DIR}/Vendor/postgres/lib/classes\"\ncp src/sql/pljava.control src/sql/pljava--*.sql \"${PROJECT_DIR}/Vendor/postgres/share/extension/\"\n\necho Making pg_jinx\ncd \"${PROJECT_DIR}/pg_jinx\"\nmake clean\nmake\nmake JAVAFILES\n\necho Patching pg_jinx\ninstall_name_tool -add_rpath \"${JAVA_LCPATH}\" pg_jinx.so\ncp pg_jinx.control pg_jinx--*.sql \"${PROJECT_DIR}/Vendor/postgres/share/extension/\"\ncp pg_jinx.so \"${PROJECT_DIR}/Vendor/postgres/lib\"\ncp pg_combined.jar \"${PROJECT_DIR}/Vendor/postgres/lib/pg_jinx.jar\" # pg_combined -> pg_jinx\n\n# fix dynamic linking\nexport LC_LPATH=\"@loader_path/../lib\"\n\ndirectories=( \"bin\" \"lib\" )\nfor directory in ${directories[@]}\ndo\n\ncd \"${PROJECT_DIR}/Vendor/postgres/${directory}\"\n\nfor file in *\ndo\n\n( /usr/bin/install_name_tool -add_rpath \"${LC_LPATH}\" $file || true)\n\nfor lib in libpq.5.dylib libecpg.6.dylib libpgtypes.3.dylib\ndo\n( /usr/bin/install_name_tool -change \"${PROJECT_DIR}/Vendor/postgres/lib/${lib}\" \"@rpath/${lib}\" $file || true)\n\ndone\ndone\n\nfor file in *.dylib\ndo\nbasename=`basename $file`\nif [[ -f $file ]]\nthen\n/usr/bin/install_name_tool -id \"@rpath/${basename}\" $file\n# codesign --verbose -f -s \"${CODE_SIGN_IDENTITY}\" --entitlements \"${PROJECT_DIR}/App/Tool.entitlements\" \"$file\"\nfi\ndone\n\ndone\n\n\n# find Vendor -type f \\( -name \"*.jar\" -or -name \"*.dylib\" -or -name \"*.so\" \\) -exec codesign --verbose -f -s \"${CODE_SIGN_IDENTITY}\" --entitlements App/Tool.entitlements {} \\;\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		E79C656917306F6900E10EB1 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E79C657017306F6900E10EB1 /* main.c in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		F8973A041538846600EAB41E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -527,34 +481,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		E79C657417306F6900E10EB1 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_WARN_EMPTY_BODY = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				HEADER_SEARCH_PATHS = "${PROJECT_DIR}/Vendor/jdk1.7.jdk/Contents/Home/include/**";
-				LIBRARY_SEARCH_PATHS = "${PROJECT_DIR}/Vendor/jdk1.7.jdk/Contents/Home/jre/lib/server";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		E79C657517306F6900E10EB1 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_WARN_EMPTY_BODY = YES;
-				HEADER_SEARCH_PATHS = "${PROJECT_DIR}/Vendor/jdk1.7.jdk/Contents/Home/include/**";
-				LIBRARY_SEARCH_PATHS = "${PROJECT_DIR}/Vendor/jdk1.7.jdk/Contents/Home/jre/lib/server";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 		E7B0E0AF16F37C3D0050495D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -599,32 +525,31 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-				);
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "";
-				SDKROOT = macosx;
+				SDKROOT = macosx10.8;
 			};
 			name = Debug;
 		};
@@ -632,13 +557,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -648,19 +573,20 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				PROVISIONING_PROFILE = "";
-				SDKROOT = macosx;
+				SDKROOT = macosx10.8;
 			};
 			name = Release;
 		};
 		F8973A271538846600EAB41E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = App/Transgres.entitlements;
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Robert Lefkowitz";
+				CODE_SIGN_ENTITLEMENTS = Transgres.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "App/Transgres-Prefix.pch";
@@ -676,8 +602,8 @@
 					"\"$(SRCROOT)/Vendor/jdk1.7.jdk/Contents/MacOS\"",
 				);
 				PRODUCT_NAME = Transgres;
-				PROVISIONING_PROFILE = "23376786-E3FF-4CB2-A9AD-32038A7E9B2B";
-				SDKROOT = macosx;
+				SDKROOT = macosx10.8;
+				VERSIONING_SYSTEM = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -685,8 +611,8 @@
 		F8973A281538846600EAB41E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = App/Transgres.entitlements;
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Robert Lefkowitz";
+				CODE_SIGN_ENTITLEMENTS = Transgres.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "App/Transgres-Prefix.pch";
@@ -702,8 +628,8 @@
 					"\"$(SRCROOT)/Vendor/jdk1.7.jdk/Contents/MacOS\"",
 				);
 				PRODUCT_NAME = Transgres;
-				PROVISIONING_PROFILE = "23376786-E3FF-4CB2-A9AD-32038A7E9B2B";
-				SDKROOT = macosx;
+				SDKROOT = macosx10.8;
+				VERSIONING_SYSTEM = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -711,12 +637,12 @@
 		F8973A491538851D00EAB41E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Robert Lefkowitz";
+				CODE_SIGN_ENTITLEMENTS = "postgres-service/net.r0ml.postgres-service.entitlements";
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "postgres-service/postgres-service-Info.plist";
 				MACH_O_TYPE = mh_execute;
 				PRODUCT_NAME = "net.r0ml.$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "6C6DFAE5-AA73-43E2-8B18-DDF871D798B9";
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = xpc;
 			};
@@ -725,12 +651,12 @@
 		F8973A4A1538851D00EAB41E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Robert Lefkowitz";
+				CODE_SIGN_ENTITLEMENTS = "postgres-service/net.r0ml.postgres-service.entitlements";
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "postgres-service/postgres-service-Info.plist";
 				MACH_O_TYPE = mh_execute;
 				PRODUCT_NAME = "net.r0ml.$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "6C6DFAE5-AA73-43E2-8B18-DDF871D798B9";
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = xpc;
 			};
@@ -739,15 +665,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E79C657317306F6900E10EB1 /* Build configuration list for PBXNativeTarget "test_jni" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E79C657417306F6900E10EB1 /* Debug */,
-				E79C657517306F6900E10EB1 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		E7B0E0AE16F37C3D0050495D /* Build configuration list for PBXAggregateTarget "clean-postgres-server" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
