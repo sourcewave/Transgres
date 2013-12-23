@@ -2,36 +2,43 @@
 #import <ServiceManagement/ServiceManagement.h>
 #import "AppDelegate.h"
 #import "../Vendor/postgres/include/pg_config.h"
- 
+
 @implementation AppDelegate {
     NSStatusItem *_statusBarItem;
     NSWindowController *_welcomeWindow;
     NSTextField *socketDirectory;
-    NSString *_binPath;
-    NSString *_varPath;
-    NSString *_sktPath;
-    xpc_connection_t _xpc_connection;
+    NSString *_binPath, *_varPath, *_sktPath;
 }
 
 @synthesize socketDirectory;
 
-- (void)executeCommand:(NSString *)command arguments:(NSArray *)arguments whenDone:(void (^)(NSUInteger status))terminationHandler {
-	xpc_object_t message = xpc_dictionary_create(NULL, NULL, 0);
-    xpc_dictionary_set_string(message, "command", [[_binPath stringByAppendingPathComponent:command] UTF8String]);
-    xpc_object_t args = xpc_array_create(NULL, 0);
-    [arguments enumerateObjectsUsingBlock:^(id argument, NSUInteger idx, BOOL *stop) {
-        xpc_array_set_value(args, XPC_ARRAY_APPEND, xpc_string_create([argument UTF8String]));
-    }];
-    xpc_dictionary_set_value(message, "arguments", args);
-    xpc_connection_send_message_with_reply(_xpc_connection, message, dispatch_get_main_queue(), ^(xpc_object_t object) {
-        long long status = xpc_dictionary_get_int64(object, "status");
-        const char *cmnd = xpc_dictionary_get_string(object, "command");
-        long long pid = xpc_dictionary_get_int64(object, "pid");
-        NSLog(@"%lld %s: Status %lld", pid, cmnd, status);
-        if (terminationHandler) terminationHandler(status);
-    });
+
+-(void) executeCommand: (NSString *)cmd arguments: (NSArray *)args whenDone: (void (^)(NSUInteger, NSString *))doneFunc {
+    NSTask *task = [[NSTask alloc] init];
+    task.launchPath =  [_binPath stringByAppendingPathComponent: cmd];
+    
+    //    if (cd != NULL) task.currentDirectoryPath = [NSString stringWithUTF8String:cd];
+    
+    task.currentDirectoryPath = _varPath ;
+    task.arguments = args;
+    NSPipe *pipe = [NSPipe pipe];
+    // NSPipe *pipe2 = [NSPipe pipe];
+    // task.standardOutput = pipe2;
+    task.standardError = pipe;
+    task.standardInput = [NSPipe pipe];
+    NSFileHandle * file = [pipe fileHandleForReading];
+    // NSFileHandle * file2 = [pipe2 fileHandleForReading];
+    task.terminationHandler = ^(NSTask *task) {
+        NSData * data = [file readDataToEndOfFile];
+        // NSData * data2 = [file2 readDataToEndOfFile];
+        NSString * output = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
+        // NSString * output2 =[[NSString alloc] initWithData: data2 encoding: NSUTF8StringEncoding];
+        // output = [output stringByAppendingString: output2];
+        doneFunc( [task terminationStatus], output); };
+    [task launch];
 }
-- (void) startWithTerminationHandler:(void (^)(NSUInteger status))completionBlock {
+
+- (void) startWithTerminationHandler:(void (^)(NSUInteger status, NSString *output))completionBlock {
     NSString *existingPGVersion = [NSString stringWithContentsOfFile:[_varPath stringByAppendingPathComponent:@"PG_VERSION"] encoding:NSUTF8StringEncoding error:nil];
     NSString *thisPGVersion = @PG_MAJORVERSION;
     
@@ -42,27 +49,28 @@
         NSError *error = nil;
         BOOL ok = [[NSFileManager defaultManager] moveItemAtPath:_varPath toPath:[_varPath stringByAppendingFormat:@"-%@", existingPGVersion] error:&error];
         if (!ok) NSLog(@"Error: %@", error);
-        [self executeCommand: @"pg_update" arguments: [NSArray arrayWithObjects: nil] whenDone:^(NSUInteger status) {
+
+        [self executeCommand: @"pg_update" arguments: [NSArray arrayWithObjects: nil] whenDone:^(NSUInteger status, NSString *output) {
             if (status) NSLog(@"pg_update failed");
-            NSAlert *alert = [NSAlert alertWithMessageText: [NSString stringWithFormat:NSLocalizedString(@"Postgres Version upgrade failed with status = %lld", nil), status] defaultButton: NSLocalizedString(@"OK",nil) alternateButton: nil otherButton: nil informativeTextWithFormat: NSLocalizedString(@"I must now quit", nil)];
-            NSInteger result = [alert runModal];
+            NSAlert *alert = [NSAlert alertWithMessageText: [NSString stringWithFormat:NSLocalizedString(@"Postgres Version upgrade failed with status = %lld \n %@", nil), status, output] defaultButton: NSLocalizedString(@"OK",nil) alternateButton: nil otherButton: nil informativeTextWithFormat: NSLocalizedString(@"I must now quit", nil)];
+            [alert runModal];
             [NSApp terminate: self];
         }];
-        
         existingPGVersion = nil;
     }
     
-    NSString *opts = [NSString stringWithFormat: /*@"-p  %ld*/ @"-c log_destination=syslog -c logging_collector=on -c log_connections=yes -c log_min_error_statement=LOG -c unix_socket_directories=\"%@\"", /*port, */ _sktPath];
+    NSString *opts = [NSString stringWithFormat: @"-c unix_socket_directories=\"%@\"", _sktPath];
     
     if (!existingPGVersion) {
-        [self executeCommand:@"initdb" arguments:[NSArray arrayWithObjects:[NSString stringWithFormat:@"-D%@", _varPath], [NSString stringWithFormat:@"-E%@", @"UTF8"], [NSString stringWithFormat:@"--locale=%@_%@", [[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode], [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode]], nil] whenDone:^(NSUInteger status) {
+        [self executeCommand:@"initdb" arguments:[NSArray arrayWithObjects:[NSString stringWithFormat:@"-D%@", _varPath], [NSString stringWithFormat:@"-E%@", @"UTF8"], [NSString stringWithFormat:@"--locale=%@_%@", [[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode], [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode]], nil] whenDone:^(NSUInteger status, NSString *output) {
             if (status) {
                 NSLog(@"initdb failed");
             }
+            NSLog(@"%@", output);
             
+            /*
             // if upgrading....
-            
-            [self executeCommand:@"pg_upgrade" arguments:
+              [self executeCommand:@"pg_upgrade" arguments:
               [NSArray arrayWithObjects:@"-d", [NSString stringWithFormat:@"%@-%@",_varPath,existingPGVersion],
                @"-D", [NSString stringWithFormat:@"%@", _varPath],
                @"-b", [NSString stringWithFormat:@"%@/postgres.%@",_binPath,existingPGVersion],
@@ -72,36 +80,32 @@
                 if (status) {
                     NSLog(@"pg_upgrade failed");
                 }
+            */
             
-            [self executeCommand:@"pg_ctl" arguments:[NSArray arrayWithObjects:@"start", [NSString stringWithFormat:@"-D%@", _varPath], @"-w", @"-o", opts, nil] whenDone:^(NSUInteger status) {
+            [self executeCommand:@"pg_ctl" arguments:[NSArray arrayWithObjects:@"start", [NSString stringWithFormat:@"-D%@", _varPath], @"-w", @"-o", opts, nil] whenDone:^(NSUInteger status, NSString *output) {
                 if (status) {
                     NSLog(@"pg_ctl start failed");
                 }
-                    [self executeCommand:@"createdb" arguments:[NSArray arrayWithObjects: NSUserName(), nil] whenDone:^(NSUInteger status) {
+                NSLog(@"%@", output);
+                [self executeCommand:@"createdb" arguments:[NSArray arrayWithObjects: [NSString stringWithFormat: @"-h%@",_sktPath], NSUserName(), nil] whenDone:^(NSUInteger status, NSString *output) {
                         if (status) {
                             NSLog(@"createdb failed");
                         }
+                    NSLog(@"%@", output);
                     if (completionBlock) {
-                        completionBlock(status);
+                        completionBlock(status, output);
                     }
                 }];
             }];
         }];
-        }];
     } else {
-        [self executeCommand:@"pg_ctl" arguments:[NSArray arrayWithObjects:@"start", [NSString stringWithFormat:@"-D%@", _varPath], @"-o", opts, nil] whenDone:^(NSUInteger status) {
-            // Kill server and try one more time if server can't be started
-            if (status != 0) {
-                static dispatch_once_t onceToken;
-                dispatch_once(&onceToken, ^{
-                    //                    [self stop ];
-                    [self startWithTerminationHandler:completionBlock];
-                });
-            }
-            
-            if (completionBlock) {
-                completionBlock(status);
-            }
+        [self executeCommand:@"pg_ctl" arguments:[NSArray arrayWithObjects: @"start", [NSString stringWithFormat: @"-D%@", _varPath], @"-p", [_binPath stringByAppendingPathComponent: @"postgres"], @"-o", opts, nil] whenDone: ^(NSUInteger status, NSString *output) {
+            if (completionBlock) completionBlock(status, output);
+
+            /*NSError *err = [NSError errorWithDomain:@"pg" code: status userInfo:
+                            [NSDictionary dictionaryWithObjectsAndKeys: output, NSLocalizedDescriptionKey, nil ] ]; // dictionary
+            [[NSAlert alertWithError: err] beginSheetModalForWindow: nil modalDelegate: self didEndSelector: nil contextInfo: nil];
+             */
         }];
     }
 }
@@ -115,29 +119,25 @@
     
     NSFileManager *fm = [NSFileManager defaultManager];
     NSURL *xsd = [[fm URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask] objectAtIndex: 0];
-    NSURL *asd = [xsd URLByAppendingPathComponent: @"var"];
+    NSURL *asd = [xsd URLByAppendingPathComponent: @"Transgres/var"];
     NSError *err = nil;
     [fm createDirectoryAtURL: asd withIntermediateDirectories: YES attributes: nil error: &err];
 
-    NSURL *zzsd = [xsd URLByAppendingPathComponent: @"ext"];
+    NSURL *zzsd = [xsd URLByAppendingPathComponent: @"Transgres/ext"];
     err = nil;
     [fm createDirectoryAtURL: zzsd withIntermediateDirectories: YES attributes: nil error: &err];
 
-    NSURL *tsd = [ [xsd URLByAppendingPathComponent: @"../../tmp"] URLByStandardizingPath];
+    NSURL *tsd = [ [xsd URLByAppendingPathComponent: @"Transgres/tmp"] URLByStandardizingPath];
     [fm createDirectoryAtURL: tsd withIntermediateDirectories: YES attributes: nil error: &err];
 
     
-    // This is a monstrous HACK to avoid code-signing
     _binPath =[[NSBundle mainBundle] pathForAuxiliaryExecutable:@"Resources/bin"];
     _varPath = [asd path];
     _sktPath = [tsd path];
     
-    _xpc_connection = xpc_connection_create("net.r0ml.postgres-service", dispatch_get_main_queue());
-    xpc_connection_set_event_handler(_xpc_connection, ^(xpc_object_t event) {
-        xpc_dictionary_apply(event, ^bool(const char *key, xpc_object_t value) { return true; });
-    });
-    xpc_connection_resume(_xpc_connection);
-        
+    [self.postgresStatusMenuItem setEnabled:NO];
+    self.postgresStatusMenuItem.title = @"Starting up";
+
     [self start: nil];
     
     [NSApp activateIgnoringOtherApps:YES];
@@ -149,22 +149,25 @@
     
     [_welcomeWindow.window makeKeyAndOrderFront:self];
     
-    [self.postgresStatusMenuItem setEnabled:NO];
-    self.postgresStatusMenuItem.title = @"Starting up";
 }
 
-- (void)stopThen: (void (^)())completionBlock  {
-    xpc_object_t message = xpc_dictionary_create(NULL, NULL, 0);
-    xpc_dictionary_set_string(message, "kill", [_varPath UTF8String]);
-    xpc_connection_send_message_with_reply(_xpc_connection, message, dispatch_get_main_queue(), ^(xpc_object_t object) {
-        NSLog(@"kill pid %lld status = %lld", xpc_dictionary_get_int64(object, "pid"), xpc_dictionary_get_int64(object, "status"));
-        if (completionBlock) completionBlock();
-    });
+- (void)stop {
+    NSString *pidPath = [_varPath stringByAppendingPathComponent:@"postmaster.pid"];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:pidPath]) {
+        NSString *pid = [[[NSString stringWithContentsOfFile:pidPath encoding:NSUTF8StringEncoding error:nil] componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] objectAtIndex:0];
+        int t = [[NSNumberFormatter new] numberFromString: pid].intValue;
+        int res = kill( (pid_t) t, SIGQUIT);
+        int z = errno;
+        if (res != 0) {
+            NSLog(@"failed to kill %d; error = %d", t, z);
+        }
+    }
 }
 
-- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {    
-    [self stopThen: ^() { [ sender replyToApplicationShouldTerminate: YES]; } ];
-    return NSTerminateLater;
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
+    [self stop ];
+    [ sender replyToApplicationShouldTerminate: YES];
+    return NSTerminateNow;
 }
 
 #pragma mark - IBAction
@@ -190,8 +193,12 @@
 }
 
 -(IBAction) start:(id) sender {
-    [self startWithTerminationHandler:^(NSUInteger status) {
+    [self startWithTerminationHandler:^(NSUInteger status, NSString *output) {
         self.postgresStatusMenuItem.title = status == 0 ? @"Running" : @"Could not start";
+        if ([output length] > 0) {
+            NSAlert * alert= [NSAlert alertWithMessageText: output defaultButton: @"OK" alternateButton: nil otherButton: nil informativeTextWithFormat: @"stuff"];
+            [alert runModal];
+        }
     }];
     
 }
