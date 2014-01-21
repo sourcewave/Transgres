@@ -10,3 +10,6 @@
 [submodule "mupdf"]
 	path = mupdf
 	url = git://git.ghostscript.com/mupdf.git
+[submodule "plv8js"]
+	path = plv8js
+	url = https://code.google.com/p/plv8js/

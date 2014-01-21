@@ -39,7 +39,6 @@
 		E716F81616F4DE4A00CAF881 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F8973A151538846600EAB41E /* InfoPlist.strings */; };
 		E79C656717304EE200E10EB1 /* phant2.png in Resources */ = {isa = PBXBuildFile; fileRef = E79C656517304EE200E10EB1 /* phant2.png */; };
 		E79C656817304EE200E10EB1 /* phant4.png in Resources */ = {isa = PBXBuildFile; fileRef = E79C656617304EE200E10EB1 /* phant4.png */; };
-		E7B0F0A316F3819B0050495D /* jdk1.7.jdk in CopyFiles */ = {isa = PBXBuildFile; fileRef = E7B0F0A216F3819B0050495D /* jdk1.7.jdk */; };
 		E7B0F0A516F3CC4F0050495D /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F8973A211538846600EAB41E /* MainMenu.xib */; };
 		E7B0F0A616F3CC570050495D /* WelcomeWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = F883D60D15B5CEB60017F83A /* WelcomeWindow.xib */; };
 		E7B0F0A916F3CC9A0050495D /* Transgres.icns in Resources */ = {isa = PBXBuildFile; fileRef = F884C919153CA24400CDCB09 /* Transgres.icns */; };
@@ -58,7 +57,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
-				E7B0F0A316F3819B0050495D /* jdk1.7.jdk in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,8 +93,6 @@
 		E704835816FF829D006A01D3 /* share */ = {isa = PBXFileReference; lastKnownFileType = folder; name = share; path = postgres/share; sourceTree = "<group>"; };
 		E79C656517304EE200E10EB1 /* phant2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = phant2.png; path = App/phant2.png; sourceTree = "<group>"; };
 		E79C656617304EE200E10EB1 /* phant4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = phant4.png; path = App/phant4.png; sourceTree = "<group>"; };
-		E79C6576173079E200E10EB1 /* libjvm.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libjvm.dylib; path = Vendor/jdk1.7.jdk/Contents/Home/jre/lib/server/libjvm.dylib; sourceTree = "<group>"; };
-		E7B0F0A216F3819B0050495D /* jdk1.7.jdk */ = {isa = PBXFileReference; lastKnownFileType = folder; path = jdk1.7.jdk; sourceTree = "<group>"; };
 		E7C444F717E7E4E8008B7C26 /* ecpg_config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ecpg_config.h; sourceTree = "<group>"; };
 		E7C444F817E7E4E8008B7C26 /* ecpg_informix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ecpg_informix.h; sourceTree = "<group>"; };
 		E7C444F917E7E4E8008B7C26 /* ecpgerrno.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ecpgerrno.h; sourceTree = "<group>"; };
@@ -1553,7 +1549,6 @@
 			isa = PBXGroup;
 			children = (
 				E7C444F617E7E4E8008B7C26 /* include */,
-				E79C6576173079E200E10EB1 /* libjvm.dylib */,
 				E79C656517304EE200E10EB1 /* phant2.png */,
 				E79C656617304EE200E10EB1 /* phant4.png */,
 				F8973A121538846600EAB41E /* Transgres */,
@@ -1621,7 +1616,6 @@
 		F8973A32153884AC00EAB41E /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-				E7B0F0A216F3819B0050495D /* jdk1.7.jdk */,
 				F80534F21538883D000E1BAC /* postgres */,
 			);
 			path = Vendor;
@@ -1728,7 +1722,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = "/bin/sh -x";
-			shellScript = "#!/bin/sh -x\n\ncd ${PROJECT_DIR}/postgres-project\n\nrm -rf ../build\n\n./configure --prefix=\"${PROJECT_DIR}/Vendor/postgres\" --enable-thread-safety --with-openssl --with-gssapi --with-bonjour --with-krb5 --with-libxml --with-libxslt --with-perl --with-python --with-readline --with-libedit-preferred --enable-debug LDFLAGS_SL=-headerpad_max_install_names --with-includes=/Library/Developer/CommandLineTools/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7/ --with-libraries=/Library/Developer/CommandLineTools/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/Python.framework/Versions/2.7/lib/\n/usr/bin/make -C src clean uninstall\n/usr/bin/make -C contrib clean uninstall\n\ncd ${PROJECT_DIR}/pljava\nmake clean\n\ncd ${PROJECT_DIR}/pg_jinx\nmake clean\n\ncd ${PROJECT_DIR}/Vendor\nrm -rf jdk1.7.jdk\nrm -rf postgres\n\nexport JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_21.jdk/Contents/Home/\nditto ${JAVA_HOME}/../.. ${PROJECT_DIR}/Vendor/jdk1.7.jdk\n\nditto ${PROJECT_DIR}/mupdf/build/debug/mudraw ${PROJECT_DIR}/Vendor/postgres/bin/mudraw\nditto ${PROJECT_DIR}/mupdf/build/debug/mupdf ${PROJECT_DIR}/Vendor/postgres/bin/mupdf\nditto ${PROJECT_DIR}/mupdf/build/debug/mutool ${PROJECT_DIR}/Vendor/postgres/bin/mutool\n\n# remove the visualvm stuff (takes a long time to codesign\nrm -rf ${PROJECT_DIR}/Vendor/jdk1.7.jdk/Contents/Home/lib/visualvm\n# remove the derby stuff (takes a long time to codesign\nrm -rf ${PROJECT_DIR}/Vendor/jdk1.7.jdk/Contents/Home/db\n";
+			shellScript = "#!/bin/sh -x\n\ncd ${PROJECT_DIR}/postgres-project\n\nrm -rf ../build\n\n./configure --prefix=\"${PROJECT_DIR}/Vendor/postgres\" --enable-thread-safety --with-openssl --with-gssapi --with-bonjour --with-krb5 --with-libxml --with-libxslt --with-perl --with-python --with-readline --with-libedit-preferred --enable-debug LDFLAGS_SL=-headerpad_max_install_names --with-includes=/Library/Developer/CommandLineTools/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7/ --with-libraries=/Library/Developer/CommandLineTools/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/Python.framework/Versions/2.7/lib/\n/usr/bin/make -C src clean uninstall\n/usr/bin/make -C contrib clean uninstall\n\ncd ${PROJECT_DIR}/Vendor\nrm -rf postgres\n";
 		};
 		F805351B15388B0A000E1BAC /* Build postgres server */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1742,7 +1736,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = "/bin/sh -x";
-			shellScript = "#!/bin/sh\n\n# JAVA_HOME must be set\nexport JAVA_HOME=${PROJECT_DIR}/Vendor/jdk1.7.jdk/Contents/Home\nexport JAVA_LCPATH=@loader_path/../jdk1.7.jdk/Contents/Home/jre/lib/server\n\n# -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __info_plist -Xlinker info.plist\n\ncd ${PROJECT_DIR}/postgres-project\n/usr/bin/make -C src uninstall\n/usr/bin/make -C contrib uninstall\n\n/usr/bin/make -C src install CFLAGS=-g\n/usr/bin/make -C contrib install CFLAGS=-g\n\n# this is a temporary hack \ncp \"${PROJECT_DIR}/pg_jinx/init_jni.c\"  \"${PROJECT_DIR}/pljava/src/C/pljava/init_jni.c\"\n\necho Making pljava\ncd \"${PROJECT_DIR}/pljava\"\nmake clean\nmake -j1 \"JAVA_HOME=${JAVA_HOME}\" \"PG_CONFIG=${PROJECT_DIR}/Vendor/postgres/bin/pg_config\" CC=gcc CFLAGS=\"-g\"\n\necho Patching pljava\ncd \"${PROJECT_DIR}/pljava\"\ninstall_name_tool -add_rpath \"${JAVA_LCPATH}\" build/objs/pljava.so\ncp build/objs/pljava.so \"${PROJECT_DIR}/Vendor/postgres/lib/pljava.so\"\ncp build/pljava.jar \"${PROJECT_DIR}/Vendor/postgres/lib/pljava.jar\"\nditto build/classes \"${PROJECT_DIR}/Vendor/postgres/lib/classes\"\ncp src/sql/pljava.control src/sql/pljava--*.sql \"${PROJECT_DIR}/Vendor/postgres/share/extension/\"\n\necho Making pg_jinx\ncd \"${PROJECT_DIR}/pg_jinx\"\nmake clean\nmake\nmake JAVAFILES\n\necho Patching pg_jinx\ninstall_name_tool -add_rpath \"${JAVA_LCPATH}\" pg_jinx.so\ncp pg_jinx.control pg_jinx--*.sql \"${PROJECT_DIR}/Vendor/postgres/share/extension/\"\ncp pg_jinx.so \"${PROJECT_DIR}/Vendor/postgres/lib\"\ncp pg_combined.jar \"${PROJECT_DIR}/Vendor/postgres/lib/pg_jinx.jar\" # pg_combined -> pg_jinx\n\n# fix dynamic linking\nexport LC_LPATH=\"@loader_path/../lib\"\n\ncd \"${PROJECT_DIR}/Vendor/postgres\"\n\ndirectories=( \"bin\" \"lib\" )\nfor directory in ${directories[@]}\ndo\n\ncd \"${PROJECT_DIR}/Vendor/postgres/${directory}\"\n\nfor file in *\ndo\n\n( /usr/bin/install_name_tool -add_rpath \"${LC_LPATH}\" $file || true)\n\nfor lib in libpq.5.dylib libecpg.6.dylib libpgtypes.3.dylib\ndo\n( /usr/bin/install_name_tool -change \"${PROJECT_DIR}/Vendor/postgres/lib/${lib}\" \"@rpath/${lib}\" $file || true)\n\ndone\ndone\n\nfor file in *.dylib\ndo\nbasename=`basename $file`\nif [[ -f $file ]]\nthen\n/usr/bin/install_name_tool -id \"@rpath/${basename}\" $file\n# codesign --verbose -f -s \"${CODE_SIGN_IDENTITY}\" --entitlements \"${PROJECT_DIR}/App/Tool.entitlements\" \"$file\"\nfi\ndone\n\ndone\n\n\n# find Vendor -type f \\( -name \"*.jar\" -or -name \"*.dylib\" -or -name \"*.so\" \\) -exec codesign --verbose -f -s \"${CODE_SIGN_IDENTITY}\" --entitlements App/Tool.entitlements {} \\;\n";
+			shellScript = "#!/bin/sh\n\n# -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __info_plist -Xlinker info.plist\n\ncd ${PROJECT_DIR}/postgres-project\n/usr/bin/make -C src uninstall\n/usr/bin/make -C contrib uninstall\n\n/usr/bin/make -C src install CFLAGS=-g\n/usr/bin/make -C contrib install CFLAGS=-g\n\n# fix dynamic linking\nexport LC_LPATH=\"@loader_path/../lib\"\n\ncd \"${PROJECT_DIR}/Vendor/postgres\"\n\ndirectories=( \"bin\" \"lib\" )\nfor directory in ${directories[@]}\ndo\n\ncd \"${PROJECT_DIR}/Vendor/postgres/${directory}\"\n\nfor file in *\ndo\n\n( /usr/bin/install_name_tool -add_rpath \"${LC_LPATH}\" $file || true)\n\nfor lib in libpq.5.dylib libecpg.6.dylib libpgtypes.3.dylib\ndo\n( /usr/bin/install_name_tool -change \"${PROJECT_DIR}/Vendor/postgres/lib/${lib}\" \"@rpath/${lib}\" $file || true)\n\ndone\ndone\n\nfor file in *.dylib\ndo\nbasename=`basename $file`\nif [[ -f $file ]]\nthen\n/usr/bin/install_name_tool -id \"@rpath/${basename}\" $file\n# codesign --verbose -f -s \"${CODE_SIGN_IDENTITY}\" --entitlements \"${PROJECT_DIR}/App/Tool.entitlements\" \"$file\"\nfi\ndone\n\ndone\n\n\n# find Vendor -type f \\( -name \"*.jar\" -or -name \"*.dylib\" -or -name \"*.so\" \\) -exec codesign --verbose -f -s \"${CODE_SIGN_IDENTITY}\" --entitlements App/Tool.entitlements {} \\;\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
