@@ -1662,7 +1662,7 @@
 		F89739FF1538846600EAB41E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0610;
 				TargetAttributes = {
 					F8973A071538846600EAB41E = {
 						DevelopmentTeam = MHEBPE6SV2;
@@ -1736,7 +1736,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = "/bin/sh -x";
-			shellScript = "#!/bin/sh\n\n# -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __info_plist -Xlinker info.plist\n\ncd ${PROJECT_DIR}/postgres-project\n/usr/bin/make -C src uninstall\n/usr/bin/make -C contrib uninstall\n\n/usr/bin/make -C src install CFLAGS=-g\n/usr/bin/make -C contrib install CFLAGS=-g\n\n# fix dynamic linking\nexport LC_LPATH=\"@loader_path/../lib\"\n\ncd \"${PROJECT_DIR}/Vendor/postgres\"\n\ndirectories=( \"bin\" \"lib\" )\nfor directory in ${directories[@]}\ndo\n\ncd \"${PROJECT_DIR}/Vendor/postgres/${directory}\"\n\nfor file in *\ndo\n\n( /usr/bin/install_name_tool -add_rpath \"${LC_LPATH}\" $file || true)\n\nfor lib in libpq.5.dylib libecpg.6.dylib libpgtypes.3.dylib\ndo\n( /usr/bin/install_name_tool -change \"${PROJECT_DIR}/Vendor/postgres/lib/${lib}\" \"@rpath/${lib}\" $file || true)\n\ndone\ndone\n\nfor file in *.dylib\ndo\nbasename=`basename $file`\nif [[ -f $file ]]\nthen\n/usr/bin/install_name_tool -id \"@rpath/${basename}\" $file\n# codesign --verbose -f -s \"${CODE_SIGN_IDENTITY}\" --entitlements \"${PROJECT_DIR}/App/Tool.entitlements\" \"$file\"\nfi\ndone\n\ndone\n\n\n# find Vendor -type f \\( -name \"*.jar\" -or -name \"*.dylib\" -or -name \"*.so\" \\) -exec codesign --verbose -f -s \"${CODE_SIGN_IDENTITY}\" --entitlements App/Tool.entitlements {} \\;\n";
+			shellScript = "#!/bin/sh\n\n# -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __info_plist -Xlinker info.plist\n\ncd ${PROJECT_DIR}/postgres-project\n/usr/bin/make -C src uninstall\n/usr/bin/make -C contrib uninstall\n\n/usr/bin/make -C src install CFLAGS=-g\n/usr/bin/make -C contrib install CFLAGS=-g\n\n# fix dynamic linking\nexport LC_LPATH=\"@loader_path/../lib\"\n\ncd \"${PROJECT_DIR}/Vendor/postgres\"\n\ndirectories=( \"bin\" \"lib\" )\nfor directory in ${directories[@]}\ndo\n\ncd \"${PROJECT_DIR}/Vendor/postgres/${directory}\"\n\nfor file in *\ndo\n  echo $file\n#( /usr/bin/install_name_tool -add_rpath \"${LC_LPATH}\" $file || true)\n#\n#for lib in libpq.5.dylib libecpg.6.dylib libpgtypes.3.dylib\n#do\n#( /usr/bin/install_name_tool -change \"${PROJECT_DIR}/Vendor/postgres/lib/${lib}\" \"@rpath/${lib}\" $file || true)\n#\n#done\n#done\n\n#for file in *.dylib\n#do\n#basename=`basename $file`\n#if [[ -f $file ]]\n#then\n#/usr/bin/install_name_tool -id \"@rpath/${basename}\" $file\n## codesign --verbose -f -s \"${CODE_SIGN_IDENTITY}\" --entitlements \"${PROJECT_DIR}/App/Tool.entitlements\" \"$file\"\n#fi\n  done\n\ndone\n\n\n# find Vendor -type f \\( -name \"*.jar\" -or -name \"*.dylib\" -or -name \"*.so\" \\) -exec codesign --verbose -f -s \"${CODE_SIGN_IDENTITY}\" --entitlements App/Tool.entitlements {} \\;\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1816,15 +1816,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -1839,9 +1840,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx10.8;
 			};
 			name = Debug;
 		};
@@ -1849,16 +1848,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "";
@@ -1870,8 +1870,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				SDKROOT = macosx10.8;
 			};
 			name = Release;
 		};
@@ -1894,7 +1892,6 @@
 					"\"$(SRCROOT)/Vendor/jdk1.7.jdk/Contents/MacOS\"",
 				);
 				PRODUCT_NAME = Transgres;
-				SDKROOT = macosx10.8;
 				VERSIONING_SYSTEM = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1919,7 +1916,6 @@
 					"\"$(SRCROOT)/Vendor/jdk1.7.jdk/Contents/MacOS\"",
 				);
 				PRODUCT_NAME = Transgres;
-				SDKROOT = macosx10.8;
 				VERSIONING_SYSTEM = "";
 				WRAPPER_EXTENSION = app;
 			};
